@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PHPUnit">
+    <option name="directories">
+      <list>
+        <option value="$PROJECT_DIR$/api/src/Auth/Test" />
+        <option value="$PROJECT_DIR$/api/src/FeatureToggle/Test" />
+        <option value="$PROJECT_DIR$/api/src/Frontend/Test" />
+        <option value="$PROJECT_DIR$/api/src/Http/Test" />
+        <option value="$PROJECT_DIR$/api/src/OAuth/Test" />
+        <option value="$PROJECT_DIR$/api/src/OAuthClient/Test" />
+        <option value="$PROJECT_DIR$/api/src/Router/Test" />
+        <option value="$PROJECT_DIR$/api/src/Serializer/Test" />
+        <option value="$PROJECT_DIR$/api/src/Translator/Test" />
+        <option value="$PROJECT_DIR$/api/src/Validator/Test" />
+        <option value="$PROJECT_DIR$/api/rector/tests" />
+        <option value="$PROJECT_DIR$/api/tests/Functional" />
+      </list>
+    </option>
+  </component>
+</project>

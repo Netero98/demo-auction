@@ -9,6 +9,7 @@ import Confirm from '../Join/Confirm'
 import Success from '../Join/Success'
 import OAuth from '../OAuth'
 import { AuthProvider } from '../OAuth/Provider'
+import Main from '../Game/Main'
 
 export default function App({ features }: { features: string[] }) {
   return (
@@ -28,6 +29,7 @@ export default function App({ features }: { features: string[] }) {
               <Route path="/join" element={<Join />} />
               <Route path="/join/confirm" element={<Confirm />} />
               <Route path="/join/success" element={<Success />} />
+              <Route path="/game" element={<Main />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
