@@ -1,10 +1,10 @@
 import React from 'react'
-import styles from './Main.module.css'
+import styles from './Dashboard.module.css'
 import System from '../../Layout/System'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../OAuth/Provider'
 
-export default function Main(): React.JSX.Element {
+export default function Dashboard(): React.JSX.Element {
   const { isAuthenticated, login, logout } = useAuth()
 
   return (

@@ -14,7 +14,7 @@
         <option value="$PROJECT_DIR$/api/src/Translator/Test" />
         <option value="$PROJECT_DIR$/api/src/Validator/Test" />
         <option value="$PROJECT_DIR$/api/rector/tests" />
-        <option value="$PROJECT_DIR$/api/tests/Functional" />
+        <option value="$PROJECT_DIR$/api/tests" />
       </list>
     </option>
   </component>

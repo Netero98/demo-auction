@@ -4,11 +4,18 @@
     <option name="transferred" value="true" />
   </component>
   <component name="PHPCSFixerOptionsConfiguration">
+    <option name="codingStandard" value="Custom" />
+    <option name="rulesetPath" value="$PROJECT_DIR$/api/.php-cs-fixer.php" />
     <option name="transferred" value="true" />
   </component>
   <component name="PHPCodeSnifferOptionsConfiguration">
     <option name="highlightLevel" value="WARNING" />
     <option name="transferred" value="true" />
+  </component>
+  <component name="PhpCSFixer">
+    <phpcsfixer_settings>
+      <PhpCSFixerConfiguration tool_path="$PROJECT_DIR$/api/vendor/bin/php-cs-fixer" />
+    </phpcsfixer_settings>
   </component>
   <component name="PhpIncludePathManager">
     <include_path>
@@ -165,7 +172,13 @@
       <PhpUnitSettings configuration_file_path="$PROJECT_DIR$/api/phpunit.xml" custom_loader_path="$PROJECT_DIR$/api/vendor/autoload.php" use_configuration_file="true" />
     </phpunit_settings>
   </component>
+  <component name="Psalm">
+    <Psalm_settings>
+      <PsalmConfiguration tool_path="$PROJECT_DIR$/api/vendor/bin/psalm" />
+    </Psalm_settings>
+  </component>
   <component name="PsalmOptionsConfiguration">
+    <option name="config" value="$PROJECT_DIR$/api/psalm.xml" />
     <option name="transferred" value="true" />
   </component>
 </project>
