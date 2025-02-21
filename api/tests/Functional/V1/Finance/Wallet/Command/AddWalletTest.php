@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Test\Functional\V1\Finance\Wallet;
+namespace Test\Functional\V1\Finance\Wallet\Command;
 
 use App\Common\Enum\CurrencyEnum;
 use App\Modules\Finance\Command\CreateWallet\DTO;
