@@ -8,6 +8,7 @@ final class ValidateHelper
 {
     /**
      * @param array<string> $requiredFields
+     * @return array<string>
      */
     public function getNotProvidedFields(array $body, array $requiredFields): array
     {

@@ -49,11 +49,17 @@ final readonly class CreateAction implements RequestHandlerInterface
 
         $notProvidedFields = $this->validateHelper->getNotProvidedFields($body, $requiredFields);
 
+        $errors = [];
+
+        foreach ($notProvidedFields as $field) {
+            $errors[$field] = 'Field is required';
+        }
+
         if (!empty($notProvidedFields)) {
             return new JsonResponse(
                 [
-                    'message' => 'Not all required fields have been provided',
-                    'need_to_add' => $notProvidedFields,
+                    'message' => 'Validation error',
+                    'errors' => $errors,
                 ],
                 HttpHelper::STATUS_UNPROCESSABLE
             );
@@ -64,7 +70,10 @@ final readonly class CreateAction implements RequestHandlerInterface
         if (!$currencyEnum instanceof CurrencyEnum) {
             return new JsonResponse(
                 [
-                    'message' => 'Invalid currency',
+                    'message' => 'Validation error',
+                    'errors' => [
+                        'currency' => 'Invalid currency. Must be on of: ' . implode(', ', CurrencyEnum::getValues()) . '.',
+                    ],
                 ],
                 HttpHelper::STATUS_UNPROCESSABLE
             );
@@ -76,7 +85,7 @@ final readonly class CreateAction implements RequestHandlerInterface
 
         $dto = new DTO(
             name: (string)$body[DTO::FIELD_NAME],
-            user_id: (string)$body[DTO::FIELD_USER_ID],
+            user_id: $identity->id,
             currency: $currencyEnum,
             initial_balance: $initial_balance,
         );

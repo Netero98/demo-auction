@@ -142,7 +142,9 @@ a {
 }
 
 .form .input-row input[type='email'],
-.form .input-row input[type='password'] {
+.form .input-row input[type='password'],
+.form .input-row input[type='text'],
+.form .input-row input[type='number'] {
   display: block;
   width: 100%;
   color: #444;
@@ -161,7 +163,9 @@ a {
 }
 
 .form .input-row.has-error input[type='email'],
-.form .input-row.has-error input[type='password'] {
+.form .input-row.has-error input[type='password'],
+.form .input-row.has-error input[type='text'],
+.form .input-row.has-error input[type='number'] {
   border-color: #c82333;
   color: #c82333;
 }

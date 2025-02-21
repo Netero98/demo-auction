@@ -10,6 +10,7 @@ import Success from '../Join/Success'
 import OAuth from '../OAuth'
 import { AuthProvider } from '../OAuth/Provider'
 import Dashboard from '../Pages/Dashboard'
+import WalletForm from 'src/Pages/WalletForm/WalletForm'
 
 export default function App({ features }: { features: string[] }) {
   return (
@@ -29,7 +30,8 @@ export default function App({ features }: { features: string[] }) {
               <Route path="/join" element={<Join />} />
               <Route path="/join/confirm" element={<Confirm />} />
               <Route path="/join/success" element={<Success />} />
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/finance/dashboard" element={<Dashboard />} />
+              <Route path="/finance/wallet-form" element={<WalletForm />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>

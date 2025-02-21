@@ -18,7 +18,6 @@ final class DTO
     public function __construct(
         #[Constraints\NotBlank]
         public string $name,
-        #[Constraints\Uuid]
         public string $user_id,
         public CurrencyEnum $currency,
         public int $initial_balance = 0,
