@@ -92,6 +92,7 @@ return [
             'metadata_dirs' => [
                 __DIR__ . '/../../src/Auth/Entity',
                 __DIR__ . '/../../src/OAuth/Entity',
+                __DIR__ . '/../../src/Modules/Finance/Entity',
             ],
             'types' => [
                 Auth\Entity\User\IdType::NAME => Auth\Entity\User\IdType::class,
