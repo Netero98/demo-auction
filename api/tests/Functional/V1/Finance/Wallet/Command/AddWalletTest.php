@@ -17,6 +17,10 @@ use Test\Functional\WebTestCase;
  */
 final class AddWalletTest extends WebTestCase
 {
+    public function testValidationErrorIfIncorrectCurrency(): void {}
+
+    public function testValidationErrorIfEmptyInput(): void {}
+
     public function testWalletCreated(): void
     {
         $response = $this->app()->handle(

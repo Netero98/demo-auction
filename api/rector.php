@@ -13,6 +13,7 @@ use Rector\Php81\Rector\FuncCall\NullToStrictStringFuncCallArgRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\AddSeeTestAnnotationRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitThisCallRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\YieldDataProviderRector;
+use Rector\PHPUnit\CodeQuality\Rector\ClassMethod\RemoveEmptyTestMethodRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\TypeDeclaration\Rector\ClassMethod\AddVoidReturnTypeWhereNoReturnRector;
 
@@ -45,6 +46,7 @@ return RectorConfig::configure()
         PreferPHPUnitThisCallRector::class,
         AddSeeTestAnnotationRector::class,
         YieldDataProviderRector::class,
+        RemoveEmptyTestMethodRector::class,
     ])
     ->withRules([
         AddVoidReturnTypeWhereNoReturnRector::class,
