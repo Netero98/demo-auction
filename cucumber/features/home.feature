@@ -7,7 +7,7 @@ Feature: View home page
   Scenario: View home page content
     Given I am a guest user
     When I open "/" page
-    Then I see "Auction" header
+    Then I see "Finsly" header
     And I see "We are here"
     And I see "join-link" element
 

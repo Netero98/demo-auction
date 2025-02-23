@@ -9,7 +9,7 @@ Feature: View join page
   Scenario: View join page as user
     Given I am a user
     When I open "/join" page
-    Then  I see "We are here"
+    Then  I see "dashboard"
     And I do not see "join-form" element
 
   Scenario: Success join

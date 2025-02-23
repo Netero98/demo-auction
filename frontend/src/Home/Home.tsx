@@ -9,7 +9,7 @@ export default function Home(): React.JSX.Element {
 
   return (
     <System>
-      <h1>Auction</h1>
+      <h1>Finsly</h1>
       <p>We are here</p>
       <p className={styles.links}>
         {isAuthenticated ? (

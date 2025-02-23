@@ -6,7 +6,7 @@ Feature: Login
   Scenario: View login button
     Given I am a guest user
     When I open "/" page
-    Then I see "Auction" header
+    Then I see "Finsly" header
     And I see "join-link" element
     And I see "login-button" element
     And I do not see "logout-button" element
