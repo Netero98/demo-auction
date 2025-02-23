@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import './App.css'
 import { FeaturesProvider } from '../FeatureToggle'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Home from '../Home'
+import Guest from '../Pages/Guest'
 import Join from '../Join'
 import { NotFound } from '../Error'
 import Confirm from '../Join/Confirm'
@@ -38,7 +38,7 @@ export default function App({ features }: { features: string[] }) {
                   <Route path="/join/confirm" element={<Confirm />} />
                   <Route path="/join/success" element={<Success />} />
                   <Route path="/finance/wallet-form" element={<WalletForm />} />
-                  <Route path="/guest" element={<Home />} />
+                  <Route path="/guest" element={<Guest />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Box>

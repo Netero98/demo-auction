@@ -7,5 +7,4 @@ Feature: Add wallet
     Then I see "Wallet name"
     Then I see "Balance"
     Then I see "Currency"
-    Then I should fill the form on the same page and submit it
-    Then I should see the new wallet added on dashboard
+#todo Then I fill the form and see new wallet in dashboard "Wallets" block

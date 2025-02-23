@@ -1,16 +1,16 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import Home from './Home'
-import { FeaturesProvider } from '../FeatureToggle'
+import Guest from './Guest'
+import { FeaturesProvider } from '../../FeatureToggle'
 import { MemoryRouter } from 'react-router-dom'
-import FakeAuthProvider from '../OAuth/Provider/FakeAuthProvider'
+import FakeAuthProvider from '../../OAuth/Provider/FakeAuthProvider'
 
 test('renders home', () => {
   render(
     <FakeAuthProvider isAuthenticated={false}>
       <FeaturesProvider features={[]}>
         <MemoryRouter>
-          <Home />
+          <Guest />
         </MemoryRouter>
       </FeaturesProvider>
     </FakeAuthProvider>,

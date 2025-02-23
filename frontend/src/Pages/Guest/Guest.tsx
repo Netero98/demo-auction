@@ -1,10 +1,10 @@
 import React from 'react'
-import styles from './Home.module.css'
-import System from '../Layout/System'
+import styles from './Guest.module.css'
+import System from '../../Layout/System'
 import { Link } from 'react-router-dom'
-import { useAuth } from '../OAuth/Provider'
+import { useAuth } from '../../OAuth/Provider'
 
-export default function Home(): React.JSX.Element {
+export default function Guest(): React.JSX.Element {
   const { isAuthenticated, login, logout } = useAuth()
 
   return (
