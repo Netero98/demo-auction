@@ -2,10 +2,10 @@ Feature: Add wallet
 
   Scenario: Add wallet
     Given I am a user
-    When I open "/finance/wallet-form" page
+    When I open "/" page
+    Then I see "Wallets"
     Then I see "Wallet name"
+    Then I see "Balance"
     Then I see "Currency"
-    Then I see "Initial balance"
-    Then I should fill form
-    Then I should receive success message
-    Then I should check that wallet is added on dashboard
+    Then I should fill the form on the same page and submit it
+    Then I should see the new wallet added on dashboard
