@@ -4,7 +4,7 @@ export default function InputError({ error }: { error: string | null }): React.J
   return (
     <>
       {error ? (
-        <div className="input-error" data-testid="violation">
+        <div data-testid="violation" style={{ color: 'red' }}>
           {error}
         </div>
       ) : null}

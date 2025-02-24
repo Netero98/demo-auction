@@ -1,11 +1,15 @@
 import React from 'react'
 import styles from './Guest.module.css'
 import System from '../../Layout/System'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { useAuth } from '../../OAuth/Provider'
 
 export default function Guest(): React.JSX.Element {
   const { isAuthenticated, login, logout } = useAuth()
+
+  if (isAuthenticated) {
+    return <Navigate to="/" replace />
+  }
 
   return (
     <System>

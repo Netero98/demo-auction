@@ -9,9 +9,12 @@ Feature: Wallets dashboard block
     Then I see "Currency"
     Then I click "button_add_wallet" element
     Then I fill "wallet_name_input" field with "Test wallet name 1"
-    Then I fill "wallet_currency_input" field with "USD"
+    Then I fill "wallet_currency_input" field with "wrong currency"
     Then I fill "wallet_initial_balance_input" field with "95534"
-    Then I click submit button
+    Then I click "save-wallet-button" element
+    Then I see "Invalid currency"
+    Then I fill "wallet_currency_input" field with "USD"
+    Then I click "save-wallet-button" element
 #    to be sure that its not the form data
     Then I go to "/" page
     Then I see "Test wallet name 1"
