@@ -1,13 +1,12 @@
 import BoxHeader from 'src/Components/BoxHeader'
 import DashboardBox from 'src/Components/DashboardBox'
 import { useWallets } from 'src/State/Api/useWallets'
-import { Box, useTheme, styled, InputLabel } from '@mui/material'
+import { Box, useTheme, styled, InputLabel, Modal, Typography } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 import React, { useEffect, useState } from 'react'
 import api, { parseError, parseErrors } from 'src/Api'
 import { AlertError } from 'src/Alert'
 import { ButtonRow, InputError, InputRow } from 'src/Form'
-
 import { useAuth } from 'src/OAuth/Provider'
 
 const StyledInput = styled('input')(({ theme }) => ({
@@ -42,18 +41,16 @@ const StyledButton = styled('button')(({ theme }) => ({
 
 const WalletsBlock = (): React.JSX.Element => {
   const { getToken } = useAuth()
-
   const { palette } = useTheme()
-
   const [formData, setFormData] = useState({
     wallet_name_input: '',
     wallet_currency_input: '',
     wallet_initial_balance_input: 0,
   })
-
   const [buttonActive, setButtonActive] = useState<boolean>(true)
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [error, setError] = useState<string | null>(null)
+  const [openModal, setOpenModal] = useState<boolean>(false)
   const { data: walletsData, fetchWallets, fetchWalletsInitial } = useWallets()
 
   useEffect(() => {
@@ -90,6 +87,7 @@ const WalletsBlock = (): React.JSX.Element => {
       .then(() => {
         setButtonActive(true)
         fetchWallets()
+        setOpenModal(false) // Закрываем модальное окно после успешного добавления
       })
       .catch(async (error) => {
         setErrors(await parseErrors(error))
@@ -145,70 +143,9 @@ const WalletsBlock = (): React.JSX.Element => {
             },
           }}
         >
-          <div data-testid="wallet-form">
-            <AlertError message={error} />
-            <form className="form" method="post" onSubmit={handleSubmit}>
-              <div
-                style={{ display: 'flex', flexDirection: 'row', gap: '1rem', alignItems: 'center' }}
-              >
-                <InputRow error={errors.name}>
-                  <InputLabel htmlFor="name" component="label" style={{ color: palette.grey[100] }}>
-                    Wallet name
-                  </InputLabel>
-                  <StyledInput
-                    id="wallet_name_input"
-                    name="wallet_name_input"
-                    type="text"
-                    value={formData.wallet_name_input}
-                    onChange={handleChange}
-                    required
-                  />
-                  <InputError error={errors.email} />
-                </InputRow>
-                <InputRow error={errors.currency}>
-                  <InputLabel
-                    htmlFor="currency"
-                    component="label"
-                    style={{ color: palette.grey[100] }}
-                  >
-                    Currency
-                  </InputLabel>
-                  <StyledInput
-                    id="wallet_currency_input"
-                    name="wallet_currency_input"
-                    type="text"
-                    value={formData.wallet_currency_input}
-                    onChange={handleChange}
-                    required
-                  />
-                  <InputError error={errors.currency} />
-                </InputRow>
-                <InputRow error={errors.initial_balance}>
-                  <InputLabel htmlFor="initial_balance" style={{ color: palette.grey[100] }}>
-                    Initial balance
-                  </InputLabel>
-                  <StyledInput
-                    id="wallet_initial_balance_input"
-                    name="wallet_initial_balance_input"
-                    type="number"
-                    value={formData.wallet_initial_balance_input}
-                    onChange={handleChange}
-                    required
-                  />
-                  <InputError error={errors.initial_balance} />
-                </InputRow>
-                <ButtonRow>
-                  <StyledButton
-                    type="submit"
-                    data-testid="save-wallet-button"
-                    disabled={!buttonActive}
-                  >
-                    Save wallet
-                  </StyledButton>
-                </ButtonRow>
-              </div>
-            </form>
-          </div>
+          <StyledButton onClick={() => setOpenModal(true)} data-testid="button_add_wallet">
+            Add Wallet
+          </StyledButton>
           <DataGrid
             columnHeaderHeight={25}
             rowHeight={35}
@@ -218,6 +155,91 @@ const WalletsBlock = (): React.JSX.Element => {
           />
         </Box>
       </>
+
+      <Modal
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgcolor: 'background.paper',
+            boxShadow: 24,
+            p: 4,
+            borderRadius: '4px',
+          }}
+        >
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Add New Wallet
+          </Typography>
+          <div data-testid="wallet-form">
+            <AlertError message={error} />
+            <form className="form" method="post" onSubmit={handleSubmit}>
+              <InputRow error={errors.name}>
+                <InputLabel htmlFor="name" component="label" style={{ color: palette.grey[800] }}>
+                  Wallet name
+                </InputLabel>
+                <StyledInput
+                  id="wallet_name_input"
+                  name="wallet_name_input"
+                  type="text"
+                  value={formData.wallet_name_input}
+                  onChange={handleChange}
+                  required
+                />
+                <InputError error={errors.email} />
+              </InputRow>
+              <InputRow error={errors.currency}>
+                <InputLabel
+                  htmlFor="currency"
+                  component="label"
+                  style={{ color: palette.grey[800] }}
+                >
+                  Currency
+                </InputLabel>
+                <StyledInput
+                  id="wallet_currency_input"
+                  name="wallet_currency_input"
+                  type="text"
+                  value={formData.wallet_currency_input}
+                  onChange={handleChange}
+                  required
+                />
+                <InputError error={errors.currency} />
+              </InputRow>
+              <InputRow error={errors.initial_balance}>
+                <InputLabel htmlFor="initial_balance" style={{ color: palette.grey[800] }}>
+                  Initial balance
+                </InputLabel>
+                <StyledInput
+                  id="wallet_initial_balance_input"
+                  name="wallet_initial_balance_input"
+                  type="number"
+                  value={formData.wallet_initial_balance_input}
+                  onChange={handleChange}
+                  required
+                />
+                <InputError error={errors.initial_balance} />
+              </InputRow>
+              <ButtonRow>
+                <StyledButton
+                  type="submit"
+                  data-testid="save-wallet-button"
+                  disabled={!buttonActive}
+                >
+                  Save wallet
+                </StyledButton>
+              </ButtonRow>
+            </form>
+          </div>
+        </Box>
+      </Modal>
     </DashboardBox>
   )
 }

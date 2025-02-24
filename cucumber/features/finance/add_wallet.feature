@@ -7,12 +7,12 @@ Feature: Wallets dashboard block
     Then I see "Wallet name"
     Then I see "Initial balance"
     Then I see "Currency"
+    Then I click "button_add_wallet" element
     Then I fill "wallet_name_input" field with "Test wallet name 1"
     Then I fill "wallet_currency_input" field with "USD"
     Then I fill "wallet_initial_balance_input" field with "95534"
     Then I click submit button
-    Then I fill "wallet_name_input" field with "mock_to_ensure_form_has_different_value"
-    Then I fill "wallet_currency_input" field with "mock_to_ensure_form_has_different_value"
-    Then I fill "wallet_initial_balance_input" field with "1"
+#    to be sure that its not the form data
+    Then I go to "/" page
     Then I see "Test wallet name 1"
     Then I see "95534"

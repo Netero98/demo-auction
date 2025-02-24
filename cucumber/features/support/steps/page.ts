@@ -13,6 +13,8 @@ Given('I am on {string} page', { wrapperOptions: { retry: 2 }, timeout: 30000 },
 
 When('I open {string} page', { wrapperOptions: { retry: 2 }, timeout: 30000 }, onPage)
 
+Then('I go to {string} page', { wrapperOptions: { retry: 2 }, timeout: 30000 }, onPage)
+
 Then('I see {string}', async function (this: CustomWorld, value: string) {
   if (!this.page) {
     throw new Error('Page is undefined')
