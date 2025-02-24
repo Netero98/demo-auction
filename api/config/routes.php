@@ -20,12 +20,12 @@ return static function (App $app): void {
             $group->post('/join/confirm', Action\V1\Auth\Join\Confirm::class);
 
             $group->get('/user', Action\V1\Auth\User::class);
+        }));
 
-            // module finance:
-            $group->group('/finance', new Group(static function (RouteCollectorProxy $group): void {
-                $group->post('/wallet', Action\V1\Finance\Wallet\CreateAction::class);
-                $group->get('/wallets', Action\V1\Finance\Wallet\ListAction::class);
-            }));
+        // module finance:
+        $group->group('/finance', new Group(static function (RouteCollectorProxy $group): void {
+            $group->post('/wallet', Action\V1\Finance\Wallet\CreateAction::class);
+            $group->get('/wallets', Action\V1\Finance\Wallet\ListAction::class);
         }));
     }));
 };

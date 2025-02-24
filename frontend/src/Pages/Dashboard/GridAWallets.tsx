@@ -1,24 +1,81 @@
 import BoxHeader from 'src/Components/BoxHeader'
 import DashboardBox from 'src/Components/DashboardBox'
-import { useGetWalletsQuery } from 'src/State/Mock/GetWalletsQuery'
+import { useWallets } from 'src/State/Api/useWallets'
 import { Box, useTheme } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import api, { parseError, parseErrors } from 'src/Api'
+import { AlertError } from 'src/Alert'
+import { ButtonRow, InputError, InputLabel, InputRow } from 'src/Form'
+import { useAuth } from 'src/OAuth/Provider'
 
 const GridAWallets = (): React.JSX.Element => {
+  const { getToken } = useAuth()
+
   const { palette } = useTheme()
 
-  const { data: transactionData } = useGetWalletsQuery()
+  const [formData, setFormData] = useState({
+    wallet_name_input: '',
+    wallet_currency_input: '',
+    wallet_initial_balance_input: 0,
+  })
 
-  const transactionColumns = [
+  const [buttonActive, setButtonActive] = useState<boolean>(true)
+  const [errors, setErrors] = useState<Record<string, string>>({})
+  const [error, setError] = useState<string | null>(null)
+  const { data: walletsData, fetchWallets } = useWallets()
+
+  useEffect(() => {
+    fetchWallets().then()
+  }, [])
+
+  const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
+    const input = event.currentTarget
+    setFormData({
+      ...formData,
+      [input.name]: input.type === 'checkbox' ? input.checked : input.value,
+    })
+  }
+
+  const handleSubmit = async (event: React.SyntheticEvent) => {
+    event.preventDefault()
+
+    setButtonActive(false)
+    setErrors({})
+    setError(null)
+
+    api
+      .post(
+        '/v1/finance/wallet',
+        {
+          name: formData.wallet_name_input,
+          currency: formData.wallet_currency_input,
+          initial_balance: formData.wallet_initial_balance_input,
+        },
+        {
+          Authorization: await getToken(),
+        },
+      )
+      .then(() => {
+        setButtonActive(true)
+        fetchWallets()
+      })
+      .catch(async (error) => {
+        setErrors(await parseErrors(error))
+        setError(await parseError(error))
+        setButtonActive(true)
+      })
+  }
+
+  const walletColumns = [
     {
       field: 'name',
       headerName: 'Wallet name',
       flex: 1,
     },
     {
-      field: 'balance',
-      headerName: 'Balance',
+      field: 'initial_balance',
+      headerName: 'Initial balance',
       flex: 0.35,
     },
     {
@@ -51,12 +108,58 @@ const GridAWallets = (): React.JSX.Element => {
           },
         }}
       >
+        <div data-testid="wallet-form">
+          <AlertError message={error} />
+          <form className="form" method="post" onSubmit={handleSubmit}>
+            <InputRow error={errors.name}>
+              <InputLabel htmlFor="name" label="Wallet name" />
+              <input
+                id="wallet_name_input"
+                name="wallet_name_input"
+                type="text"
+                value={formData.wallet_name_input}
+                onChange={handleChange}
+                required
+              />
+              <InputError error={errors.email} />
+            </InputRow>
+            <InputRow error={errors.currency}>
+              <InputLabel htmlFor="currency" label="Currency" />
+              <input
+                id="wallet_currency_input"
+                name="wallet_currency_input"
+                type="text"
+                value={formData.wallet_currency_input}
+                onChange={handleChange}
+                required
+              />
+              <InputError error={errors.currency} />
+            </InputRow>
+            <InputRow error={errors.initial_balance}>
+              <InputLabel htmlFor="initial_balance" label="Initial balance" />
+              <input
+                id="wallet_initial_balance_input"
+                name="wallet_initial_balance_input"
+                type="number"
+                value={formData.wallet_initial_balance_input}
+                onChange={handleChange}
+                required
+              />
+              <InputError error={errors.initial_balance} />
+            </InputRow>
+            <ButtonRow>
+              <button type="submit" data-testid="save-wallet-button" disabled={!buttonActive}>
+                Save wallet
+              </button>
+            </ButtonRow>
+          </form>
+        </div>
         <DataGrid
           columnHeaderHeight={25}
           rowHeight={35}
           hideFooter={true}
-          rows={transactionData || []}
-          columns={transactionColumns}
+          rows={walletsData || []}
+          columns={walletColumns}
         />
       </Box>
     </DashboardBox>

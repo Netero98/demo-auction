@@ -26,7 +26,7 @@ final class AddWalletTest extends WebTestCase
         $response = $this->app()->handle(
             self::json(
                 'POST',
-                '/v1/auth/finance/wallet',
+                '/v1/finance/wallet',
                 [
                     DTO::FIELD_NAME => 'test_wallet_name',
                     DTO::FIELD_USER_ID => Uuid::uuid4()->toString(),
@@ -58,7 +58,7 @@ final class AddWalletTest extends WebTestCase
         $response = $this->app()->handle(
             self::json(
                 'POST',
-                '/v1/auth/finance/wallet',
+                '/v1/finance/wallet',
                 [
                     DTO::FIELD_NAME => 'test_wallet_name',
                     DTO::FIELD_USER_ID => Uuid::uuid4()->toString(),

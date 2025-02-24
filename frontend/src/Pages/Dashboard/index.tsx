@@ -12,15 +12,15 @@ const gridTemplateLargeScreens = `
 `
 
 const gridTemplateSmallScreens = `
-  "a a a"
-  "a a a"
-  "a a a"
-  "b b b"
-  "b b b"
-  "b b b"
-  "c c c"
-  "c c c"
-  "c c c"
+  "a"
+  "a"
+  "a"
+  "b"
+  "b"
+  "b"
+  "c"
+  "c"
+  "c"
 `
 
 const Dashboard = () => {
