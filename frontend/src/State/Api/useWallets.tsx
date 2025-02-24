@@ -9,8 +9,17 @@ export const useWallets = () => {
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const { getToken } = useAuth()
+  const [alreadyFetched, setAlreadyFetched] = useState<boolean>(false)
 
-  const fetchWallets = async () => {
+  const fetchWalletsInitial = async () => {
+    if (!alreadyFetched) {
+      setAlreadyFetched(true)
+
+      await syncWallets()
+    }
+  }
+
+  const syncWallets = async () => {
     setIsLoading(true)
     setError(null) // очищаем ошибку перед новым запросом
     try {
@@ -25,5 +34,5 @@ export const useWallets = () => {
     }
   }
 
-  return { data, error, isLoading, fetchWallets }
+  return { data, error, isLoading, fetchWallets: syncWallets, fetchWalletsInitial }
 }

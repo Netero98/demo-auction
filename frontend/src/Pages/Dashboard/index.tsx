@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, useMediaQuery } from '@mui/material'
-import GridAWallets from './GridAWallets'
+import WalletsBlock from './WalletsBlock'
 import { useAuth } from 'src/OAuth/Provider'
 import { Navigate } from 'react-router-dom'
 import Navbar from 'src/Navbar'
@@ -53,7 +53,7 @@ const Dashboard = () => {
               }
         }
       >
-        <GridAWallets />
+        <WalletsBlock />
       </Box>
     </>
   )

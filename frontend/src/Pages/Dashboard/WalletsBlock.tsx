@@ -9,7 +9,7 @@ import { AlertError } from 'src/Alert'
 import { ButtonRow, InputError, InputLabel, InputRow } from 'src/Form'
 import { useAuth } from 'src/OAuth/Provider'
 
-const GridAWallets = (): React.JSX.Element => {
+const WalletsBlock = (): React.JSX.Element => {
   const { getToken } = useAuth()
 
   const { palette } = useTheme()
@@ -23,10 +23,10 @@ const GridAWallets = (): React.JSX.Element => {
   const [buttonActive, setButtonActive] = useState<boolean>(true)
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [error, setError] = useState<string | null>(null)
-  const { data: walletsData, fetchWallets } = useWallets()
+  const { data: walletsData, fetchWallets, fetchWalletsInitial } = useWallets()
 
   useEffect(() => {
-    fetchWallets().then()
+    fetchWalletsInitial().then()
   }, [])
 
   const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
@@ -166,4 +166,4 @@ const GridAWallets = (): React.JSX.Element => {
   )
 }
 
-export default GridAWallets
+export default WalletsBlock
