@@ -21,12 +21,10 @@ export const useWallets = () => {
 
   const syncWallets = async () => {
     setIsLoading(true)
-    setError(null) // очищаем ошибку перед новым запросом
+    setError(null)
     try {
       const response = await api.get('/v1/finance/wallets', { Authorization: await getToken() })
       setData(response)
-
-      console.table(response)
     } catch (err) {
       setError(await parseError(err as Response | Error))
     } finally {

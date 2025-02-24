@@ -1,13 +1,44 @@
 import BoxHeader from 'src/Components/BoxHeader'
 import DashboardBox from 'src/Components/DashboardBox'
 import { useWallets } from 'src/State/Api/useWallets'
-import { Box, useTheme } from '@mui/material'
+import { Box, useTheme, styled, InputLabel } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 import React, { useEffect, useState } from 'react'
 import api, { parseError, parseErrors } from 'src/Api'
 import { AlertError } from 'src/Alert'
-import { ButtonRow, InputError, InputLabel, InputRow } from 'src/Form'
+import { ButtonRow, InputError, InputRow } from 'src/Form'
+
 import { useAuth } from 'src/OAuth/Provider'
+
+const StyledInput = styled('input')(({ theme }) => ({
+  width: '100%',
+  padding: '8px',
+  margin: '8px 0',
+  borderRadius: '4px',
+  border: `1px solid ${theme.palette.grey[800]}`,
+  backgroundColor: theme.palette.background.paper,
+  color: theme.palette.text.primary,
+  '&:focus': {
+    borderColor: theme.palette.primary.main,
+    outline: 'none',
+  },
+}))
+
+const StyledButton = styled('button')(({ theme }) => ({
+  padding: '10px 20px',
+  borderRadius: '4px',
+  border: 'none',
+  backgroundColor: theme.palette.primary.main,
+  color: theme.palette.common.white,
+  cursor: 'pointer',
+  '&:disabled': {
+    backgroundColor: theme.palette.grey[500],
+    cursor: 'not-allowed',
+  },
+  '&:hover:not(:disabled)': {
+    backgroundColor: theme.palette.primary.dark,
+  },
+}))
 
 const WalletsBlock = (): React.JSX.Element => {
   const { getToken } = useAuth()
@@ -87,81 +118,102 @@ const WalletsBlock = (): React.JSX.Element => {
 
   return (
     <DashboardBox gridArea="a">
-      <BoxHeader title="Wallets" sideText="" />
-      <Box
-        mt="1rem"
-        p="0 0.5rem"
-        height="80%"
-        sx={{
-          '& .MuiDataGrid-root': {
-            color: palette.grey[300],
-            border: 'none',
-          },
-          '& .MuiDataGrid-cell': {
-            borderBottom: `1px solid ${palette.grey[800]} !important`,
-          },
-          '& .MuiDataGrid-columnHeaders': {
-            borderBottom: `1px solid ${palette.grey[800]} !important`,
-          },
-          '& .MuiDataGrid-columnSeparator': {
-            visibility: 'hidden',
-          },
-        }}
-      >
-        <div data-testid="wallet-form">
-          <AlertError message={error} />
-          <form className="form" method="post" onSubmit={handleSubmit}>
-            <InputRow error={errors.name}>
-              <InputLabel htmlFor="name" label="Wallet name" />
-              <input
-                id="wallet_name_input"
-                name="wallet_name_input"
-                type="text"
-                value={formData.wallet_name_input}
-                onChange={handleChange}
-                required
-              />
-              <InputError error={errors.email} />
-            </InputRow>
-            <InputRow error={errors.currency}>
-              <InputLabel htmlFor="currency" label="Currency" />
-              <input
-                id="wallet_currency_input"
-                name="wallet_currency_input"
-                type="text"
-                value={formData.wallet_currency_input}
-                onChange={handleChange}
-                required
-              />
-              <InputError error={errors.currency} />
-            </InputRow>
-            <InputRow error={errors.initial_balance}>
-              <InputLabel htmlFor="initial_balance" label="Initial balance" />
-              <input
-                id="wallet_initial_balance_input"
-                name="wallet_initial_balance_input"
-                type="number"
-                value={formData.wallet_initial_balance_input}
-                onChange={handleChange}
-                required
-              />
-              <InputError error={errors.initial_balance} />
-            </InputRow>
-            <ButtonRow>
-              <button type="submit" data-testid="save-wallet-button" disabled={!buttonActive}>
-                Save wallet
-              </button>
-            </ButtonRow>
-          </form>
-        </div>
-        <DataGrid
-          columnHeaderHeight={25}
-          rowHeight={35}
-          hideFooter={true}
-          rows={walletsData || []}
-          columns={walletColumns}
-        />
-      </Box>
+      <>
+        <BoxHeader title="Wallets" sideText="" />
+        <Box
+          mt="1rem"
+          p="0 0.5rem"
+          height="80%"
+          sx={{
+            '& .MuiDataGrid-root': {
+              color: palette.grey[300],
+              border: 'none',
+            },
+            '& .MuiDataGrid-cell': {
+              borderBottom: `1px solid ${palette.grey[800]} !important`,
+            },
+            '& .MuiDataGrid-columnHeaders': {
+              borderBottom: `1px solid ${palette.grey[800]} !important`,
+            },
+            '& .MuiDataGrid-columnSeparator': {
+              visibility: 'hidden',
+            },
+            '& .form': {
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1rem',
+            },
+          }}
+        >
+          <div data-testid="wallet-form">
+            <AlertError message={error} />
+            <form className="form" method="post" onSubmit={handleSubmit}>
+              <div
+                style={{ display: 'flex', flexDirection: 'row', gap: '1rem', alignItems: 'center' }}
+              >
+                <InputRow error={errors.name}>
+                  <InputLabel htmlFor="name" component="label">
+                    Wallet name
+                  </InputLabel>
+                  <StyledInput
+                    id="wallet_name_input"
+                    name="wallet_name_input"
+                    type="text"
+                    value={formData.wallet_name_input}
+                    onChange={handleChange}
+                    required
+                  />
+                  <InputError error={errors.email} />
+                </InputRow>
+                <InputRow error={errors.currency}>
+                  <InputLabel htmlFor="currency" component="label">
+                    Currency
+                  </InputLabel>
+                  <StyledInput
+                    id="wallet_currency_input"
+                    name="wallet_currency_input"
+                    type="text"
+                    value={formData.wallet_currency_input}
+                    onChange={handleChange}
+                    required
+                  />
+                  <InputError error={errors.currency} />
+                </InputRow>
+                <InputRow error={errors.initial_balance}>
+                  <InputLabel htmlFor="initial_balance" sx={{ color: palette.text.primary }}>
+                    Initial balance
+                  </InputLabel>
+                  <StyledInput
+                    id="wallet_initial_balance_input"
+                    name="wallet_initial_balance_input"
+                    type="number"
+                    value={formData.wallet_initial_balance_input}
+                    onChange={handleChange}
+                    required
+                  />
+                  <InputError error={errors.initial_balance} />
+                </InputRow>
+                <ButtonRow>
+                  <StyledButton
+                    type="submit"
+                    data-testid="save-wallet-button"
+                    disabled={!buttonActive}
+                  >
+                    Save wallet
+                  </StyledButton>
+                </ButtonRow>
+              </div>
+            </form>
+          </div>
+          <DataGrid
+            columnHeaderHeight={25}
+            rowHeight={35}
+            hideFooter={true}
+            rows={walletsData || []}
+            columns={walletColumns}
+          />
+        </Box>
+      </>
     </DashboardBox>
   )
 }
