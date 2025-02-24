@@ -152,7 +152,7 @@ const WalletsBlock = (): React.JSX.Element => {
                 style={{ display: 'flex', flexDirection: 'row', gap: '1rem', alignItems: 'center' }}
               >
                 <InputRow error={errors.name}>
-                  <InputLabel htmlFor="name" component="label">
+                  <InputLabel htmlFor="name" component="label" style={{ color: palette.grey[100] }}>
                     Wallet name
                   </InputLabel>
                   <StyledInput
@@ -166,7 +166,11 @@ const WalletsBlock = (): React.JSX.Element => {
                   <InputError error={errors.email} />
                 </InputRow>
                 <InputRow error={errors.currency}>
-                  <InputLabel htmlFor="currency" component="label">
+                  <InputLabel
+                    htmlFor="currency"
+                    component="label"
+                    style={{ color: palette.grey[100] }}
+                  >
                     Currency
                   </InputLabel>
                   <StyledInput
@@ -180,7 +184,7 @@ const WalletsBlock = (): React.JSX.Element => {
                   <InputError error={errors.currency} />
                 </InputRow>
                 <InputRow error={errors.initial_balance}>
-                  <InputLabel htmlFor="initial_balance" sx={{ color: palette.text.primary }}>
+                  <InputLabel htmlFor="initial_balance" style={{ color: palette.grey[100] }}>
                     Initial balance
                   </InputLabel>
                   <StyledInput
