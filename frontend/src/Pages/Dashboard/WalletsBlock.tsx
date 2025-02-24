@@ -143,7 +143,11 @@ const WalletsBlock = (): React.JSX.Element => {
             },
           }}
         >
-          <StyledButton onClick={() => setOpenModal(true)} data-testid="button_add_wallet">
+          <StyledButton
+            onClick={() => setOpenModal(true)}
+            data-testid="button_add_wallet"
+            style={{ color: palette.grey[800], marginBottom: '1rem' }}
+          >
             Add Wallet
           </StyledButton>
           <DataGrid
@@ -232,6 +236,7 @@ const WalletsBlock = (): React.JSX.Element => {
                   type="submit"
                   data-testid="save-wallet-button"
                   disabled={!buttonActive}
+                  style={{ color: palette.grey[800] }}
                 >
                   Save wallet
                 </StyledButton>
