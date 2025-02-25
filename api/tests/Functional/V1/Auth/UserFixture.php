@@ -6,7 +6,7 @@ namespace Test\Functional\V1\Auth;
 
 use App\Auth\Entity\User\Id;
 use App\Auth\Test\Builder\UserBuilder;
-use App\Common\Fixture\AbstractFixture;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Persistence\ObjectManager;
 use Override;
 

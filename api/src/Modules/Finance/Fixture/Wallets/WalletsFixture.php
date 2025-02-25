@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Modules\Finance\Fixture\Wallets;
 
 use App\Common\Enum\CurrencyEnum;
-use App\Common\Fixture\AbstractFixture;
 use App\Modules\Finance\Entity\Wallet;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Persistence\ObjectManager;
 use Override;
 use Ramsey\Uuid\Uuid;

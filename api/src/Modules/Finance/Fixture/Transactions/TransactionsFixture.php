@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Modules\Finance\Fixture\Transactions;
 
-use App\Common\Fixture\AbstractFixture;
 use App\Modules\Finance\Entity\Category;
 use App\Modules\Finance\Entity\Transaction;
 use App\Modules\Finance\Entity\Wallet;
 use App\Modules\Finance\Fixture\Categories\CategoriesFixture;
 use App\Modules\Finance\Fixture\Wallets\WalletsFixture;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Persistence\ObjectManager;
 use Override;
 use Ramsey\Uuid\Uuid;

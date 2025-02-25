@@ -19,13 +19,13 @@ final readonly class Handler
     }
 
     /**
-     * Возвращает список категорий для указанного пользователя.
-     *
      * @return array<Category>
+     *
+     * @psalm-suppress LessSpecificReturnStatement
+     * @psalm-suppress MoreSpecificReturnType
      */
     public function handle(string $user_id): array
     {
-        /** @var array<Category> $categories */
         return $this->repository->findBy([Category::PROP_USER_ID => $user_id]);
     }
 }
