@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Modules\Finance\Entity;
 
-use App\Common\Enum\CurrencyEnum;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -15,35 +14,32 @@ use Override;
 
 #[ORM\Entity]
 #[ORM\Table(name: self::TABLE_NAME)]
-#[ORM\UniqueConstraint(name: 'unique_user_id_wallet_name', columns: [self::PROP_USER_ID, self::PROP_NAME])]
+#[ORM\UniqueConstraint(name: 'unique_user_id_category_name', columns: [self::PROP_USER_ID, self::PROP_NAME])]
 #[ORM\HasLifecycleCallbacks]
-class Wallet implements JsonSerializable
+class Category implements JsonSerializable
 {
-    public const string TABLE_NAME = 'finance_wallets';
-
     public const string PROP_ID = 'id';
     public const string PROP_NAME = 'name';
     public const string PROP_USER_ID = 'user_id';
-    public const string PROP_INITIAL_BALANCE = 'initial_balance';
-    public const string PROP_CURRENCY = 'currency';
     public const string PROP_CREATED_AT = 'created_at';
     public const string PROP_UPDATED_AT = 'updated_at';
+    public const string TABLE_NAME = 'finance_categories';
 
     #[ORM\Id]
     #[ORM\Column(type: Types::GUID)]
     private string $id;
 
-    #[ORM\Column(type: Types::GUID)]
-    private string $user_id;
-
     #[ORM\Column(type: Types::STRING, length: 255)]
     private string $name;
 
-    #[ORM\Column(type: Types::INTEGER, options: ['default' => 0])]
-    private int $initial_balance;
+    #[ORM\Column(type: Types::GUID)]
+    private string $user_id;
 
-    #[ORM\Column(type: Types::STRING, nullable: false, enumType: CurrencyEnum::class)]
-    private CurrencyEnum $currency;
+    /**
+     * @var Collection<int, Transaction>
+     */
+    #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'category')]
+    private Collection $transactions;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: false)]
     private ?DateTimeImmutable $createdAt = null;
@@ -51,24 +47,14 @@ class Wallet implements JsonSerializable
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: false)]
     private ?DateTimeImmutable $updatedAt = null;
 
-    /**
-     * @var Collection<int, Transaction>
-     */
-    #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'wallet')]
-    private Collection $transactions;
-
     public function __construct(
         string $uuid,
         string $name,
-        string $user_id,
-        int $initial_balance,
-        CurrencyEnum $currency
+        string $user_id
     ) {
         $this->id = $uuid;
         $this->name = $name;
         $this->user_id = $user_id;
-        $this->initial_balance = $initial_balance;
-        $this->currency = $currency;
         $this->transactions = new ArrayCollection();
     }
 
@@ -85,22 +71,35 @@ class Wallet implements JsonSerializable
         $this->updatedAt = new DateTimeImmutable();
     }
 
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function getUserId(): string
+    {
+        return $this->user_id;
+    }
+
     #[Override]
     public function jsonSerialize(): array
     {
         return [
             self::PROP_ID => $this->id,
-            self::PROP_USER_ID => $this->user_id,
             self::PROP_NAME => $this->name,
-            self::PROP_INITIAL_BALANCE => $this->initial_balance,
-            self::PROP_CURRENCY => $this->currency->value,
+            self::PROP_USER_ID => $this->user_id,
             self::PROP_CREATED_AT => $this->createdAt?->format('Y-m-d H:i:s'),
             self::PROP_UPDATED_AT => $this->updatedAt?->format('Y-m-d H:i:s'),
         ];
-    }
-
-    public function getId(): string
-    {
-        return $this->id;
     }
 }

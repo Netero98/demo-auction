@@ -11,4 +11,5 @@ final class HttpHelper
     public const int STATUS_UNAUTHORIZED= 401;
     public const int STATUS_NOT_FOUND= 404;
     public const int STATUS_UNPROCESSABLE = 422;
+    public const int STATUS_INTERNAL_SERVER_ERROR = 500;
 }

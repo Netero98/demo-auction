@@ -40,6 +40,9 @@ return [
             ],
             'fixture_paths' => [
                 __DIR__ . '/../../src/Auth/Fixture',
+                __DIR__ . '/../../src/Modules/Finance/Fixture/Wallets',
+                __DIR__ . '/../../src/Modules/Finance/Fixture/Categories',
+                __DIR__ . '/../../src/Modules/Finance/Fixture/Transactions',
             ],
         ],
     ],

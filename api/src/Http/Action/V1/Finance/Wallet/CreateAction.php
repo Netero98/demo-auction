@@ -97,7 +97,7 @@ final readonly class CreateAction implements RequestHandlerInterface
         return new JsonResponse(
             [
                 'message' => 'Wallet successfully created',
-                'id' => $wallet->id,
+                'id' => $wallet->getId(),
             ],
             HttpHelper::STATUS_CREATED
         );

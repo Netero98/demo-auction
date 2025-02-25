@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Test\Functional\V1\Finance\Wallet\Query;
+namespace Test\Functional\V1\Finance\Wallet;
 
 use App\Common\Helper\HttpHelper;
+use App\Modules\Finance\Fixture\Wallets\WalletsFixture;
 use JsonException;
 use Override;
 use Test\Functional\AuthHeader;
@@ -14,7 +15,7 @@ use Test\Functional\WebTestCase;
 /**
  * @internal
  */
-final class GetWalletsQueryTest extends WebTestCase
+final class GetWalletsTest extends WebTestCase
 {
     #[Override]
     protected function setUp(): void

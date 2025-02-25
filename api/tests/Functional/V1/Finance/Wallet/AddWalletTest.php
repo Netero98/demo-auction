@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Test\Functional\V1\Finance\Wallet\Command;
+namespace Test\Functional\V1\Finance\Wallet;
 
 use App\Common\Enum\CurrencyEnum;
 use App\Modules\Finance\Command\CreateWallet\DTO;
@@ -50,7 +50,7 @@ final class AddWalletTest extends WebTestCase
         $wallet = $em->find(Wallet::class, $responseArray['id']);
 
         self::assertInstanceOf(Wallet::class, $wallet);
-        self::assertSame($wallet->id, $responseArray['id']);
+        self::assertSame($wallet->getId(), $responseArray['id']);
     }
 
     public function testGuest(): void

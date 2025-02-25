@@ -26,6 +26,8 @@ return static function (App $app): void {
         $group->group('/finance', new Group(static function (RouteCollectorProxy $group): void {
             $group->post('/wallet', Action\V1\Finance\Wallet\CreateAction::class);
             $group->get('/wallets', Action\V1\Finance\Wallet\ListAction::class);
+            $group->get('/transactions', Action\V1\Finance\Transaction\ListAction::class);
+            $group->get('/categories', Action\V1\Finance\Category\ListAction::class);
         }));
     }));
 };
