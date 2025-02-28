@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Link, Navigate, useLocation } from 'react-router-dom'
-import System from '../../Layout/System'
-import { AlertError } from '../../Alert'
-import api, { parseError } from '../../Api'
+import System from 'src/Components/Layout/System'
+import { AlertError } from '../../../Components/Alert'
+import api, { parseError } from '../../../Api'
 
 function useQuery() {
   return new URLSearchParams(useLocation().search)

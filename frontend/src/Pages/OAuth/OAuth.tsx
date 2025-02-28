@@ -1,7 +1,7 @@
 import React from 'react'
-import System from '../Layout/System'
+import System from 'src/Components/Layout/System'
 import { Link } from 'react-router-dom'
-import { AlertError } from '../Alert'
+import { AlertError } from '../../Components/Alert'
 import useAuth from './Provider/useAuth'
 
 export default function OAuth(): React.JSX.Element {

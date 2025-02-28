@@ -2,7 +2,7 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import Join from './Join'
 import { MemoryRouter } from 'react-router-dom'
-import FakeAuthProvider from '../OAuth/Provider/FakeAuthProvider'
+import FakeAuthProvider from 'src/Pages/OAuth/Provider/FakeAuthProvider'
 
 test('renders join page', () => {
   render(

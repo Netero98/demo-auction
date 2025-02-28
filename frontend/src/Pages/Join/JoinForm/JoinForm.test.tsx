@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import JoinForm from './JoinForm'
-import api from '../../Api'
+import api from '../../../Api'
 
 test('allows the user to join successfully', async () => {
   jest.spyOn(api, 'post').mockResolvedValue('')

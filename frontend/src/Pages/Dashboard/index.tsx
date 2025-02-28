@@ -1,9 +1,9 @@
 import React from 'react'
 import { Box, useMediaQuery } from '@mui/material'
 import WalletsBlock from './WalletsBlock'
-import { useAuth } from 'src/OAuth/Provider'
+import { useAuth } from 'src/Pages/OAuth/Provider'
 import { Navigate } from 'react-router-dom'
-import Navbar from 'src/Navbar'
+import Navbar from 'src/Components/Navbar'
 
 const gridTemplateLargeScreens = `
   "a b c"

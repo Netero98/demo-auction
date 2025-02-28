@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import Guest from './Guest'
 import { FeaturesProvider } from '../../FeatureToggle'
 import { MemoryRouter } from 'react-router-dom'
-import FakeAuthProvider from '../../OAuth/Provider/FakeAuthProvider'
+import FakeAuthProvider from 'src/Pages/OAuth/Provider/FakeAuthProvider'
 
 test('renders home', () => {
   render(

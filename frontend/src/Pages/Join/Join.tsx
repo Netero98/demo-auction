@@ -1,9 +1,9 @@
 import React from 'react'
-import System from '../Layout/System'
+import System from 'src/Components/Layout/System'
 import { Link, Navigate } from 'react-router-dom'
 import JoinForm from './JoinForm'
-import { useAuth } from '../OAuth/Provider'
-import AuthExternal from '../OAuth/External/AuthExternal'
+import { useAuth } from 'src/Pages/OAuth/Provider'
+import AuthExternal from 'src/Pages/OAuth/External/AuthExternal'
 
 export default function Join(): React.JSX.Element {
   const { isAuthenticated } = useAuth()

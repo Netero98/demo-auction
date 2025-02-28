@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import { render, waitFor, screen } from '@testing-library/react'
 import Confirm from './Confirm'
 import { createMemoryRouter, RouterProvider } from 'react-router-dom'
-import api from '../../Api'
+import api from '../../../Api'
 
 test('confirms without token', async () => {
   jest.spyOn(api, 'post')

@@ -1,13 +1,13 @@
 import BoxHeader from 'src/Components/BoxHeader'
 import DashboardBox from 'src/Components/DashboardBox'
-import { useWallets } from 'src/State/Api/useWallets'
+import { useFetchWallets } from 'src/State/Api/useFetchWallets'
 import { Box, useTheme, styled, InputLabel, Modal, Typography } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 import React, { useEffect, useState } from 'react'
+import { AlertError } from 'src/Components/Alert'
+import { ButtonRow, InputError, InputRow } from 'src/Components/Form'
+import { useAuth } from 'src/Pages/OAuth/Provider'
 import api, { parseError, parseErrors } from 'src/Api'
-import { AlertError } from 'src/Alert'
-import { ButtonRow, InputError, InputRow } from 'src/Form'
-import { useAuth } from 'src/OAuth/Provider'
 
 const StyledInput = styled('input')(({ theme }) => ({
   width: '100%',
@@ -51,7 +51,7 @@ const WalletsBlock = (): React.JSX.Element => {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [error, setError] = useState<string | null>(null)
   const [openModal, setOpenModal] = useState<boolean>(false)
-  const { data: walletsData, fetchWallets, fetchWalletsInitial } = useWallets()
+  const { walletsData, fetchWalletsInitial, fetchWallets } = useFetchWallets()
 
   useEffect(() => {
     fetchWalletsInitial().then()

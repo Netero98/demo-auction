@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import PixIcon from '@mui/icons-material/Pix'
 import { Box, Typography, useTheme } from '@mui/material'
 import FlexBetween from 'src/Components/FlexBetween'
-import { useAuth } from 'src/OAuth/Provider'
+import { useAuth } from 'src/Pages/OAuth/Provider'
 
 const Navbar = () => {
   const { palette } = useTheme()
