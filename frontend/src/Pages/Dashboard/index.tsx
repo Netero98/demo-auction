@@ -5,6 +5,7 @@ import { useAuth } from 'src/Pages/OAuth/Provider'
 import { Navigate } from 'react-router-dom'
 import Navbar from 'src/Components/Navbar'
 import CategoriesBlock from 'src/Pages/Dashboard/CategoriesBlock'
+import TransactionsBlock from 'src/Pages/Dashboard/TransactionsBlock'
 
 const gridTemplateLargeScreens = `
   "a b c"
@@ -56,6 +57,7 @@ const Dashboard = () => {
       >
         <WalletsBlock />
         <CategoriesBlock />
+        <TransactionsBlock />
       </Box>
     </>
   )

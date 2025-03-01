@@ -3,7 +3,7 @@ import DashboardBox from 'src/Components/DashboardBox'
 import { useFetchWallets } from 'src/State/Api/useFetchWallets'
 import { useFetchCategories } from 'src/State/Api/useFetchCategories'
 import { Box, useTheme, InputLabel, Modal, Typography, MenuItem, FormControl } from '@mui/material'
-import { DataGrid } from '@mui/x-data-grid'
+import { DataGrid, GridColDef, GridRenderCellParams, GridCellParams } from '@mui/x-data-grid'
 import React, { useEffect, useState } from 'react'
 import { AlertError } from 'src/Components/Alert'
 import { ButtonRow, InputError, InputRow } from 'src/Components/Form'
@@ -126,46 +126,61 @@ const TransactionsBlock = (): React.JSX.Element => {
     return category ? category.name : '—'
   }
 
-  const transactionColumns = [
+  // Custom type for valueFormatter params
+  interface ValueFormatterParams {
+    value: string | number | null | undefined
+  }
+
+  const transactionColumns: GridColDef<Transaction>[] = [
     {
       field: 'created_at',
       headerName: 'Date',
       flex: 0.5,
-      valueFormatter: (params: { value: unknown }) => {
-        return new Date(params.value as string).toLocaleDateString()
+      valueFormatter: (params: ValueFormatterParams) => {
+        if (params.value) {
+          return new Date(params.value as string).toLocaleDateString()
+        }
+        return '—'
       },
     },
     {
       field: 'wallet_id',
       headerName: 'Wallet',
       flex: 0.5,
-      valueGetter: (params: { row: { wallet_id: string } }) => getWalletName(params.row.wallet_id),
+      renderCell: (params: GridRenderCellParams<Transaction>) => {
+        return getWalletName(params.row.wallet_id)
+      },
     },
     {
       field: 'category_id',
       headerName: 'Category',
       flex: 0.5,
-      valueGetter: (params: { row: { category_id: string } }) =>
-        getCategoryName(params.row.category_id),
+      renderCell: (params: GridRenderCellParams<Transaction>) => {
+        return getCategoryName(params.row.category_id)
+      },
     },
     {
       field: 'amount',
       headerName: 'Amount',
       flex: 0.3,
-
-      valueFormatter: (params: { value: unknown }) => {
-        // Show positive/negative values with different formatting
-        const value = params.value as number
-        return value >= 0 ? `+${value}` : `${value}`
+      type: 'number',
+      valueFormatter: (params: ValueFormatterParams) => {
+        if (params.value !== undefined && params.value !== null) {
+          const value = params.value as number
+          return value >= 0 ? `+${value}` : `${value}`
+        }
+        return '0'
       },
-      cellClassName: (params: { value: unknown }) => {
-        return (params.value as number) >= 0 ? 'positive-amount' : 'negative-amount'
+      cellClassName: (params: GridCellParams) => {
+        const value = params.value as number
+        return value !== undefined && value >= 0 ? 'positive-amount' : 'negative-amount'
       },
     },
     {
       field: 'description',
       headerName: 'Description',
       flex: 1,
+      type: 'string',
     },
   ]
 
