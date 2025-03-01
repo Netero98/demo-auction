@@ -1,6 +1,6 @@
 import BoxHeader from 'src/Components/BoxHeader'
 import DashboardBox from 'src/Components/DashboardBox'
-import { useFetchWallets } from 'src/State/Api/useFetchWallets'
+import { useFetchCategories } from 'src/State/Api/useFetchCategories'
 import { Box, useTheme, InputLabel, Modal, Typography } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 import React, { useEffect, useState } from 'react'
@@ -8,25 +8,23 @@ import { AlertError } from 'src/Components/Alert'
 import { ButtonRow, InputError, InputRow } from 'src/Components/Form'
 import { useAuth } from 'src/Pages/OAuth/Provider'
 import api, { parseError, parseErrors } from 'src/Api'
-import StyledInput from 'src/Components/StyledInput'
 import StyledButton from 'src/Components/StyledButton'
+import StyledInput from 'src/Components/StyledInput'
 
-const WalletsBlock = (): React.JSX.Element => {
+const CategoriesBlock = (): React.JSX.Element => {
   const { getToken } = useAuth()
   const { palette } = useTheme()
   const [formData, setFormData] = useState({
-    wallet_name_input: '',
-    wallet_currency_input: '',
-    wallet_initial_balance_input: 0,
+    category_name_input: '',
   })
   const [buttonActive, setButtonActive] = useState<boolean>(true)
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [error, setError] = useState<string | null>(null)
   const [openModal, setOpenModal] = useState<boolean>(false)
-  const { walletsData, fetchWalletsInitial, fetchWallets } = useFetchWallets()
+  const { categoriesData, fetchCategoriesInitial, fetchCategories } = useFetchCategories()
 
   useEffect(() => {
-    fetchWalletsInitial().then()
+    fetchCategoriesInitial().then()
   }, [])
 
   const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
@@ -46,11 +44,9 @@ const WalletsBlock = (): React.JSX.Element => {
 
     api
       .post(
-        '/v1/finance/wallet',
+        '/v1/finance/category',
         {
-          name: formData.wallet_name_input,
-          currency: formData.wallet_currency_input,
-          initial_balance: formData.wallet_initial_balance_input,
+          name: formData.category_name_input,
         },
         {
           Authorization: await getToken(),
@@ -58,8 +54,12 @@ const WalletsBlock = (): React.JSX.Element => {
       )
       .then(() => {
         setButtonActive(true)
-        fetchWallets()
-        setOpenModal(false) // Закрываем модальное окно после успешного добавления
+        fetchCategories()
+        setOpenModal(false) // Close modal after successful addition
+        // Reset form
+        setFormData({
+          category_name_input: '',
+        })
       })
       .catch(async (error) => {
         setErrors(await parseErrors(error))
@@ -68,28 +68,26 @@ const WalletsBlock = (): React.JSX.Element => {
       })
   }
 
-  const walletColumns = [
+  const categoryColumns = [
     {
       field: 'name',
-      headerName: 'Wallet name',
+      headerName: 'Category name',
       flex: 1,
     },
     {
-      field: 'initial_balance',
-      headerName: 'Initial balance',
-      flex: 0.35,
-    },
-    {
-      field: 'currency',
-      headerName: 'Currency',
-      flex: 0.35,
+      field: 'created_at',
+      headerName: 'Created',
+      flex: 0.5,
+      valueFormatter: (params: { value: string | undefined }) => {
+        return params.value ? new Date(params.value).toLocaleDateString() : ''
+      },
     },
   ]
 
   return (
-    <DashboardBox gridArea="a">
+    <DashboardBox gridArea="b">
       <>
-        <BoxHeader title="Wallets" sideText="" />
+        <BoxHeader title="Categories" sideText="" />
         <Box
           mt="1rem"
           p="0 0.5rem"
@@ -117,17 +115,17 @@ const WalletsBlock = (): React.JSX.Element => {
         >
           <StyledButton
             onClick={() => setOpenModal(true)}
-            data-testid="button_add_wallet"
+            data-testid="button_add_category"
             style={{ color: palette.grey[800], marginBottom: '1rem' }}
           >
-            Add Wallet
+            Add Category
           </StyledButton>
           <DataGrid
             columnHeaderHeight={25}
             rowHeight={35}
             hideFooter={true}
-            rows={walletsData || []}
-            columns={walletColumns}
+            rows={categoriesData || []}
+            columns={categoryColumns}
           />
         </Box>
       </>
@@ -152,65 +150,33 @@ const WalletsBlock = (): React.JSX.Element => {
           }}
         >
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Add New Wallet
+            Add New Category
           </Typography>
-          <div data-testid="wallet-form">
+          <div data-testid="category-form">
             <AlertError message={error} />
             <form className="form" method="post" onSubmit={handleSubmit}>
               <InputRow error={errors.name}>
                 <InputLabel htmlFor="name" component="label" style={{ color: palette.grey[800] }}>
-                  Wallet name
+                  Category name
                 </InputLabel>
                 <StyledInput
-                  id="wallet_name_input"
-                  name="wallet_name_input"
+                  id="category_name_input"
+                  name="category_name_input"
                   type="text"
-                  value={formData.wallet_name_input}
+                  value={formData.category_name_input}
                   onChange={handleChange}
                   required
                 />
-                <InputError error={errors.email} />
-              </InputRow>
-              <InputRow error={errors.currency}>
-                <InputLabel
-                  htmlFor="currency"
-                  component="label"
-                  style={{ color: palette.grey[800] }}
-                >
-                  Currency
-                </InputLabel>
-                <StyledInput
-                  id="wallet_currency_input"
-                  name="wallet_currency_input"
-                  type="text"
-                  value={formData.wallet_currency_input}
-                  onChange={handleChange}
-                  required
-                />
-                <InputError error={errors.currency} />
-              </InputRow>
-              <InputRow error={errors.initial_balance}>
-                <InputLabel htmlFor="initial_balance" style={{ color: palette.grey[800] }}>
-                  Initial balance
-                </InputLabel>
-                <StyledInput
-                  id="wallet_initial_balance_input"
-                  name="wallet_initial_balance_input"
-                  type="number"
-                  value={formData.wallet_initial_balance_input}
-                  onChange={handleChange}
-                  required
-                />
-                <InputError error={errors.initial_balance} />
+                <InputError error={errors.name} />
               </InputRow>
               <ButtonRow>
                 <StyledButton
                   type="submit"
-                  data-testid="save-wallet-button"
+                  data-testid="save-category-button"
                   disabled={!buttonActive}
                   style={{ color: palette.grey[800] }}
                 >
-                  Save wallet
+                  Save category
                 </StyledButton>
               </ButtonRow>
             </form>
@@ -221,4 +187,4 @@ const WalletsBlock = (): React.JSX.Element => {
   )
 }
 
-export default WalletsBlock
+export default CategoriesBlock

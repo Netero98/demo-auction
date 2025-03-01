@@ -4,6 +4,7 @@ import WalletsBlock from './WalletsBlock'
 import { useAuth } from 'src/Pages/OAuth/Provider'
 import { Navigate } from 'react-router-dom'
 import Navbar from 'src/Components/Navbar'
+import CategoriesBlock from 'src/Pages/Dashboard/CategoriesBlock'
 
 const gridTemplateLargeScreens = `
   "a b c"
@@ -54,6 +55,7 @@ const Dashboard = () => {
         }
       >
         <WalletsBlock />
+        <CategoriesBlock />
       </Box>
     </>
   )
