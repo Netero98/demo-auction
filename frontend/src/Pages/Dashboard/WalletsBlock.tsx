@@ -1,15 +1,15 @@
 import BoxHeader from 'src/Components/BoxHeader'
 import DashboardBox from 'src/Components/DashboardBox'
-import { useFetchWallets } from 'src/State/Api/useFetchWallets'
 import { Box, useTheme, InputLabel, Modal, Typography } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { AlertError } from 'src/Components/Alert'
 import { ButtonRow, InputError, InputRow } from 'src/Components/Form'
 import { useAuth } from 'src/Pages/OAuth/Provider'
 import api, { parseError, parseErrors } from 'src/Api'
 import StyledInput from 'src/Components/StyledInput'
 import StyledButton from 'src/Components/StyledButton'
+import useGlobalState from 'src/Provider/State/useGlobalState'
 
 const WalletsBlock = (): React.JSX.Element => {
   const { getToken } = useAuth()
@@ -23,11 +23,7 @@ const WalletsBlock = (): React.JSX.Element => {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [error, setError] = useState<string | null>(null)
   const [openModal, setOpenModal] = useState<boolean>(false)
-  const { walletsData, fetchWalletsInitial, fetchWallets } = useFetchWallets()
-
-  useEffect(() => {
-    fetchWalletsInitial().then()
-  }, [])
+  const globalState = useGlobalState()
 
   const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
     const input = event.currentTarget
@@ -58,8 +54,8 @@ const WalletsBlock = (): React.JSX.Element => {
       )
       .then(() => {
         setButtonActive(true)
-        fetchWallets()
         setOpenModal(false) // Закрываем модальное окно после успешного добавления
+        globalState.fetchWallets()
       })
       .catch(async (error) => {
         setErrors(await parseErrors(error))
@@ -126,7 +122,7 @@ const WalletsBlock = (): React.JSX.Element => {
             columnHeaderHeight={25}
             rowHeight={35}
             hideFooter={true}
-            rows={walletsData || []}
+            rows={globalState.wallets || []}
             columns={walletColumns}
           />
         </Box>

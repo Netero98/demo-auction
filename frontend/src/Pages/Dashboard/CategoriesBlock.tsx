@@ -1,15 +1,15 @@
 import BoxHeader from 'src/Components/BoxHeader'
 import DashboardBox from 'src/Components/DashboardBox'
-import { useFetchCategories } from 'src/State/Api/useFetchCategories'
 import { Box, useTheme, InputLabel, Modal, Typography } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { AlertError } from 'src/Components/Alert'
 import { ButtonRow, InputError, InputRow } from 'src/Components/Form'
 import { useAuth } from 'src/Pages/OAuth/Provider'
 import api, { parseError, parseErrors } from 'src/Api'
 import StyledButton from 'src/Components/StyledButton'
 import StyledInput from 'src/Components/StyledInput'
+import useGlobalState from 'src/Provider/State/useGlobalState'
 
 const CategoriesBlock = (): React.JSX.Element => {
   const { getToken } = useAuth()
@@ -21,11 +21,7 @@ const CategoriesBlock = (): React.JSX.Element => {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [error, setError] = useState<string | null>(null)
   const [openModal, setOpenModal] = useState<boolean>(false)
-  const { categoriesData, fetchCategoriesInitial, fetchCategories } = useFetchCategories()
-
-  useEffect(() => {
-    fetchCategoriesInitial().then()
-  }, [])
+  const globalState = useGlobalState()
 
   const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
     const input = event.currentTarget
@@ -54,7 +50,7 @@ const CategoriesBlock = (): React.JSX.Element => {
       )
       .then(() => {
         setButtonActive(true)
-        fetchCategories()
+        globalState.fetchCategories()
         setOpenModal(false) // Close modal after successful addition
         // Reset form
         setFormData({
@@ -116,7 +112,7 @@ const CategoriesBlock = (): React.JSX.Element => {
             columnHeaderHeight={25}
             rowHeight={35}
             hideFooter={true}
-            rows={categoriesData || []}
+            rows={globalState.categories || []}
             columns={categoryColumns}
           />
         </Box>

@@ -1,4 +1,4 @@
-interface Transaction {
+type Transaction = {
   id: string
   wallet_id: string
   amount: number

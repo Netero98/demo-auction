@@ -12,6 +12,7 @@ import { AuthProvider } from 'src/Pages/OAuth/Provider'
 import Dashboard from '../Pages/Dashboard'
 import { Box, createTheme, CssBaseline, ThemeProvider } from '@mui/material'
 import { themeSettings } from 'src/theme'
+import GlobalStateProvider from 'src/Provider/State/GlobalStateProvider'
 
 export default function App({ features }: { features: string[] }) {
   const theme = useMemo(() => createTheme(themeSettings), [])
@@ -26,22 +27,24 @@ export default function App({ features }: { features: string[] }) {
           scope="common"
           redirectPath="/oauth"
         >
-          <BrowserRouter>
-            <ThemeProvider theme={theme}>
-              <CssBaseline />
-              <Box width="100%" height="100%" padding="1rem 2rem 4rem 2rem">
-                <Routes>
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path="/oauth" element={<OAuth />} />
-                  <Route path="/join" element={<Join />} />
-                  <Route path="/join/confirm" element={<Confirm />} />
-                  <Route path="/join/success" element={<Success />} />
-                  <Route path="/guest" element={<Guest />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Box>
-            </ThemeProvider>
-          </BrowserRouter>
+          <GlobalStateProvider>
+            <BrowserRouter>
+              <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <Box width="100%" height="100%" padding="1rem 2rem 4rem 2rem">
+                  <Routes>
+                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/oauth" element={<OAuth />} />
+                    <Route path="/join" element={<Join />} />
+                    <Route path="/join/confirm" element={<Confirm />} />
+                    <Route path="/join/success" element={<Success />} />
+                    <Route path="/guest" element={<Guest />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </Box>
+              </ThemeProvider>
+            </BrowserRouter>
+          </GlobalStateProvider>
         </AuthProvider>
       </FeaturesProvider>
     </div>

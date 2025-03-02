@@ -1,10 +1,8 @@
 import BoxHeader from 'src/Components/BoxHeader'
 import DashboardBox from 'src/Components/DashboardBox'
-import { useFetchWallets } from 'src/State/Api/useFetchWallets'
-import { useFetchCategories } from 'src/State/Api/useFetchCategories'
 import { Box, useTheme, InputLabel, Modal, Typography, MenuItem, FormControl } from '@mui/material'
 import { DataGrid, GridColDef, GridRenderCellParams, GridCellParams } from '@mui/x-data-grid'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { AlertError } from 'src/Components/Alert'
 import { ButtonRow, InputError, InputRow } from 'src/Components/Form'
 import { useAuth } from 'src/Pages/OAuth/Provider'
@@ -13,31 +11,8 @@ import StyledButton from 'src/Components/StyledButton'
 import StyledSelect from 'src/Components/StyledSelect'
 import StyledInput from 'src/Components/StyledInput'
 import Transaction from 'src/State/Model/Transaction'
-
-const useFetchTransactions = () => {
-  const [transactionsData, setTransactionsData] = useState<Transaction[] | null>(null)
-  const { getToken } = useAuth()
-  const [alreadyFetched, setAlreadyFetched] = useState<boolean>(false)
-
-  const fetchTransactionsInitial = async () => {
-    if (!alreadyFetched) {
-      setAlreadyFetched(true)
-      await fetchTransactions()
-    }
-  }
-
-  const fetchTransactions = async () => {
-    const response = await api.get('/v1/finance/transactions', { Authorization: await getToken() })
-    setTransactionsData(response)
-    setAlreadyFetched(true)
-  }
-
-  return {
-    transactionsData,
-    fetchTransactions,
-    fetchTransactionsInitial,
-  }
-}
+import useGlobalState from 'src/Provider/State/useGlobalState'
+import Category from 'src/State/Model/Category'
 
 const TransactionsBlock = (): React.JSX.Element => {
   const { getToken } = useAuth()
@@ -52,15 +27,7 @@ const TransactionsBlock = (): React.JSX.Element => {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [error, setError] = useState<string | null>(null)
   const [openModal, setOpenModal] = useState<boolean>(false)
-  const { transactionsData, fetchTransactionsInitial, fetchTransactions } = useFetchTransactions()
-  const { walletsData, fetchWalletsInitial } = useFetchWallets()
-  const { categoriesData, fetchCategoriesInitial } = useFetchCategories()
-
-  useEffect(() => {
-    fetchTransactionsInitial().then()
-    fetchWalletsInitial().then()
-    fetchCategoriesInitial().then()
-  }, [])
+  const globalState = useGlobalState()
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | { name?: string; value: unknown }>,
@@ -96,7 +63,7 @@ const TransactionsBlock = (): React.JSX.Element => {
       )
       .then(() => {
         setButtonActive(true)
-        fetchTransactions()
+        globalState.fetchTransactions()
         setOpenModal(false) // Close modal after successful addition
         // Reset form
         setFormData({
@@ -115,14 +82,14 @@ const TransactionsBlock = (): React.JSX.Element => {
 
   // Find wallet and category names for display
   const getWalletName = (walletId: string) => {
-    if (!walletsData) return '—'
-    const wallet = walletsData.find((w) => w.id === walletId)
+    if (!globalState.wallets) return '—'
+    const wallet = globalState.wallets.find((w) => w.id === walletId)
     return wallet ? wallet.name : '—'
   }
 
   const getCategoryName = (categoryId: string) => {
-    if (!categoriesData) return '—'
-    const category = categoriesData.find((c) => c.id === categoryId)
+    if (!globalState.categories) return '—'
+    const category = globalState.categories.find((c) => c.id === categoryId)
     return category ? category.name : '—'
   }
 
@@ -230,7 +197,7 @@ const TransactionsBlock = (): React.JSX.Element => {
             columnHeaderHeight={25}
             rowHeight={35}
             hideFooter={true}
-            rows={transactionsData || []}
+            rows={globalState.transactions || []}
             columns={transactionColumns}
           />
         </Box>
@@ -284,7 +251,7 @@ const TransactionsBlock = (): React.JSX.Element => {
                     required
                   >
                     <MenuItem value="">Select wallet</MenuItem>
-                    {walletsData?.map((wallet) => (
+                    {globalState.wallets?.map((wallet) => (
                       <MenuItem key={wallet.id} value={wallet.id}>
                         {wallet.name} ({wallet.currency})
                       </MenuItem>
@@ -317,7 +284,7 @@ const TransactionsBlock = (): React.JSX.Element => {
                     required
                   >
                     <MenuItem value="">Select category</MenuItem>
-                    {categoriesData?.map((category) => (
+                    {globalState.categories?.map((category: Category) => (
                       <MenuItem key={category.id} value={category.id}>
                         {category.name}
                       </MenuItem>
