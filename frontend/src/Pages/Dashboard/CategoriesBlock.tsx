@@ -44,7 +44,7 @@ const CategoriesBlock = (): React.JSX.Element => {
 
     api
       .post(
-        '/v1/finance/category',
+        '/v1/finance/categories',
         {
           name: formData.category_name_input,
         },
@@ -73,14 +73,6 @@ const CategoriesBlock = (): React.JSX.Element => {
       field: 'name',
       headerName: 'Category name',
       flex: 1,
-    },
-    {
-      field: 'created_at',
-      headerName: 'Created',
-      flex: 0.5,
-      valueFormatter: (params: { value: string | undefined }) => {
-        return params.value ? new Date(params.value).toLocaleDateString() : ''
-      },
     },
   ]
 

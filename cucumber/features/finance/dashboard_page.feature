@@ -19,3 +19,16 @@ Feature: Wallets dashboard block
     Then I go to "/" page
     Then I see "Test wallet name 1"
     Then I see "95534"
+
+  Scenario: Add category and see it
+    Given I am a user
+    When I open "/" page
+    Then I see "Categories"
+    Then I see "Category name"
+    Then I click "button_add_category" element
+    Then I see "Add New Category"
+    Then I fill "category_name_input" field with "Cucumber category name 1"
+    Then I click "save-category-button" element
+    # to be sure that it's not the form data
+    Then I go to "/" page
+    Then I see "Cucumber category name 1"

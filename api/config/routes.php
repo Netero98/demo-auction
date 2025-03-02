@@ -28,6 +28,7 @@ return static function (App $app): void {
             $group->get('/wallets', Action\V1\Finance\Wallet\ListAction::class);
             $group->get('/transactions', Action\V1\Finance\Transaction\ListAction::class);
             $group->get('/categories', Action\V1\Finance\Category\ListAction::class);
+            $group->post('/categories', Action\V1\Finance\Category\CreateAction::class);
         }));
     }));
 };
