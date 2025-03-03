@@ -56,7 +56,7 @@ return [
             'password' => env('MAILER_PASSWORD'),
             'from' => [
                 'email' => env('MAILER_FROM_EMAIL'),
-                'name' => 'Auction',
+                'name' => 'Finsly',
             ],
         ],
     ],

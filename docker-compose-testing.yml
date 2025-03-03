@@ -14,7 +14,7 @@ services:
             - traefik.docker.network=traefik-public
 
     frontend:
-        image: ${REGISTRY}/auction-frontend:${IMAGE_TAG}
+        image: ${REGISTRY}/finsly-frontend:${IMAGE_TAG}
         environment:
             REACT_APP_AUTH_URL: http://api.localhost
         networks:
@@ -32,7 +32,7 @@ services:
             - traefik.http.routers.frontend.middlewares=frontend-redirect
 
     api:
-        image: ${REGISTRY}/auction-api:${IMAGE_TAG}
+        image: ${REGISTRY}/finsly-api:${IMAGE_TAG}
         networks:
             - traefik-public
             - default
@@ -44,7 +44,7 @@ services:
             - traefik.http.services.api.loadBalancer.server.port=80
 
     api-php-fpm:
-        image: ${REGISTRY}/auction-api-php-fpm:${IMAGE_TAG}
+        image: ${REGISTRY}/finsly-api-php-fpm:${IMAGE_TAG}
         environment:
             APP_ENV: prod
             APP_DEBUG: 0
@@ -84,7 +84,7 @@ services:
             - oauth_mailru_client_secret
 
     api-php-cli:
-        image: ${REGISTRY}/auction-api-php-cli:${IMAGE_TAG}
+        image: ${REGISTRY}/finsly-api-php-cli:${IMAGE_TAG}
         environment:
             APP_ENV: prod
             APP_DEBUG: 0
@@ -124,7 +124,7 @@ services:
             - oauth_mailru_client_secret
 
     testing-api-php-cli:
-        image: ${REGISTRY}/auction-testing-api-php-cli:${IMAGE_TAG}
+        image: ${REGISTRY}/finsly-testing-api-php-cli:${IMAGE_TAG}
         environment:
             APP_ENV: dev
             APP_DEBUG: 1
@@ -196,7 +196,7 @@ services:
             - traefik.http.routers.wiremock.entryPoints=http
 
     cucumber-node-cli:
-        image: ${REGISTRY}/auction-cucumber-node-cli:${IMAGE_TAG}
+        image: ${REGISTRY}/finsly-cucumber-node-cli:${IMAGE_TAG}
         volumes:
             - ./cucumber/var:/app/var
         network_mode: service:traefik

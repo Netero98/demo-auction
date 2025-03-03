@@ -23,7 +23,7 @@ final class WalletsFixture extends AbstractFixture
     public function load(ObjectManager $manager): void
     {
         $wallet1 = new Wallet(
-            uuid: Uuid::uuid4()->toString(),
+            uuid: 'a62a368e-cf9a-4363-b5f5-408049e05e58',
             currency: CurrencyEnum::RUB,
             name: 'Wallet rub',
             initial_balance: 199898,

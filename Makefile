@@ -157,13 +157,13 @@ cucumber-e2e:
 build: build-frontend build-api
 
 build-frontend:
-	docker --log-level=debug build --pull --file=frontend/docker/production/nginx/Dockerfile --tag=${REGISTRY}/auction-frontend:${IMAGE_TAG} frontend
+	docker --log-level=debug build --pull --file=frontend/docker/production/nginx/Dockerfile --tag=${REGISTRY}/finsly-frontend:${IMAGE_TAG} frontend
 
 build-api:
-	docker --log-level=debug build --pull --file=api/docker/production/nginx/Dockerfile --tag=${REGISTRY}/auction-api:${IMAGE_TAG} api
-	docker --log-level=debug build --pull --file=api/docker/production/php-fpm/Dockerfile --tag=${REGISTRY}/auction-api-php-fpm:${IMAGE_TAG} api
-	docker --log-level=debug build --pull --file=api/docker/production/php-cli/Dockerfile --tag=${REGISTRY}/auction-api-php-cli:${IMAGE_TAG} api
-	docker --log-level=debug build --pull --file=api/docker/common/postgres-backup/Dockerfile --tag=${REGISTRY}/auction-api-postgres-backup:${IMAGE_TAG} api/docker/common
+	docker --log-level=debug build --pull --file=api/docker/production/nginx/Dockerfile --tag=${REGISTRY}/finsly-api:${IMAGE_TAG} api
+	docker --log-level=debug build --pull --file=api/docker/production/php-fpm/Dockerfile --tag=${REGISTRY}/finsly-api-php-fpm:${IMAGE_TAG} api
+	docker --log-level=debug build --pull --file=api/docker/production/php-cli/Dockerfile --tag=${REGISTRY}/finsly-api-php-cli:${IMAGE_TAG} api
+	docker --log-level=debug build --pull --file=api/docker/common/postgres-backup/Dockerfile --tag=${REGISTRY}/finsly-api-postgres-backup:${IMAGE_TAG} api/docker/common
 
 try-build:
 	REGISTRY=localhost IMAGE_TAG=0 make build
@@ -171,21 +171,21 @@ try-build:
 push: push-frontend push-api
 
 push-frontend:
-	docker push ${REGISTRY}/auction-frontend:${IMAGE_TAG}
+	docker push ${REGISTRY}/finsly-frontend:${IMAGE_TAG}
 
 push-api:
-	docker push ${REGISTRY}/auction-api:${IMAGE_TAG}
-	docker push ${REGISTRY}/auction-api-php-fpm:${IMAGE_TAG}
-	docker push ${REGISTRY}/auction-api-php-cli:${IMAGE_TAG}
-	docker push ${REGISTRY}/auction-api-postgres-backup:${IMAGE_TAG}
+	docker push ${REGISTRY}/finsly-api:${IMAGE_TAG}
+	docker push ${REGISTRY}/finsly-api-php-fpm:${IMAGE_TAG}
+	docker push ${REGISTRY}/finsly-api-php-cli:${IMAGE_TAG}
+	docker push ${REGISTRY}/finsly-api-postgres-backup:${IMAGE_TAG}
 
 testing-build: testing-build-testing-api-php-cli testing-build-cucumber
 
 testing-build-testing-api-php-cli:
-	docker --log-level=debug build --pull --file=api/docker/testing/php-cli/Dockerfile --tag=${REGISTRY}/auction-testing-api-php-cli:${IMAGE_TAG} api
+	docker --log-level=debug build --pull --file=api/docker/testing/php-cli/Dockerfile --tag=${REGISTRY}/finsly-testing-api-php-cli:${IMAGE_TAG} api
 
 testing-build-cucumber:
-	docker --log-level=debug build --pull --file=cucumber/docker/testing/node/Dockerfile --tag=${REGISTRY}/auction-cucumber-node-cli:${IMAGE_TAG} cucumber
+	docker --log-level=debug build --pull --file=cucumber/docker/testing/node/Dockerfile --tag=${REGISTRY}/finsly-cucumber-node-cli:${IMAGE_TAG} cucumber
 
 testing-init:
 	COMPOSE_PROJECT_NAME=testing docker compose -f docker-compose-testing.yml up -d
@@ -242,10 +242,10 @@ deploy:
 	scp -o StrictHostKeyChecking=no -P ${PORT} ${OAUTH_MAILRU_CLIENT_SECRET_FILE} deploy@${HOST}:site_${BUILD_NUMBER}/secrets/oauth_mailru_client_secret
 	scp -o StrictHostKeyChecking=no -P ${PORT} ${BACKUP_AWS_SECRET_ACCESS_KEY_FILE} deploy@${HOST}:site_${BUILD_NUMBER}/secrets/backup_aws_secret_access_key
 
-	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker stack deploy --compose-file docker-compose.yml auction --with-registry-auth --prune'
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker stack deploy --compose-file docker-compose.yml finsly --with-registry-auth --prune'
 
 deploy-clean:
 	rm -f docker-compose-production-env.yml
 
 rollback:
-	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker stack deploy --compose-file docker-compose.yml auction --with-registry-auth --prune'
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker stack deploy --compose-file docker-compose.yml finsly --with-registry-auth --prune'

@@ -50,7 +50,7 @@ const TransactionsBlock = (): React.JSX.Element => {
 
     api
       .post(
-        '/v1/finance/transaction',
+        '/v1/finance/transactions',
         {
           wallet_id: formData.transaction_wallet_id,
           amount: formData.transaction_amount,
@@ -241,6 +241,7 @@ const TransactionsBlock = (): React.JSX.Element => {
                     id="transaction_wallet_id"
                     name="transaction_wallet_id"
                     value={formData.transaction_wallet_id}
+                    data-testid="transaction_wallet_id"
                     onChange={(event) =>
                       handleChange(
                         event as React.ChangeEvent<

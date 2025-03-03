@@ -41,19 +41,22 @@ Then('I see validation error {string}', async function (this: CustomWorld, messa
   expect(errors.toString()).to.include(message)
 })
 
-When('I select {string} from {string} dropdown', async function (this: CustomWorld, optionText: string, dropdownName: string) {
+When('I select element with data-value {string} from {string} dropdown', async function (this: CustomWorld, dataValue: string, dropdownName: string) {
   if (!this.page) {
     throw new Error('Page is undefined')
   }
 
-  // Find and click the dropdown to open it
-  const dropdownSelector = '[name=' + dropdownName + ']'
-  await this.page.waitForSelector(dropdownSelector)
+  // Селектор для dropdown
+  const dropdownSelector = `[id="${dropdownName}"]`
+
+  // Ожидаем появления dropdown и кликаем по нему
+  await this.page.waitForSelector(dropdownSelector, { visible: true })
   await this.page.click(dropdownSelector)
 
-  // Wait for the dropdown options to appear and select the specified option
-  // This assumes the dropdown options are rendered as li elements with the role="option"
-  const optionSelector = `li[role="option"]:has-text("${optionText}")`
-  await this.page.waitForSelector(optionSelector)
+  // Селектор для элемента с атрибутом data-value
+  const optionSelector = `[data-value="${dataValue}"]`
+
+  // Ожидаем появления элемента и кликаем по нему
+  await this.page.waitForSelector(optionSelector, { visible: true })
   await this.page.click(optionSelector)
 })

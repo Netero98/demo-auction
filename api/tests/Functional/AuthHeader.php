@@ -21,7 +21,7 @@ final class AuthHeader
         $token = $generator->generate(
             new Client(
                 identifier: 'frontend',
-                name: 'Auction',
+                name: 'Finsly',
                 redirectUri: 'http://localhost/oauth'
             ),
             [new Scope('common')],

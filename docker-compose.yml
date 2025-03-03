@@ -172,7 +172,7 @@ services:
             context: ./api/docker/common
             dockerfile: postgres-backup/Dockerfile
         environment:
-            BACKUP_NAME: auction_api-postgres
+            BACKUP_NAME: finsly_api-postgres
             POSTGRES_HOST: api-postgres
             POSTGRES_DB: app
             POSTGRES_USERNAME: app

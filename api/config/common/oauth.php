@@ -158,7 +158,7 @@ return [
             ],
             'clients' => [
                 [
-                    'name' => 'Auction',
+                    'name' => 'Finsly',
                     'client_id' => 'frontend',
                     'redirect_uri' => env('FRONTEND_URL') . '/oauth',
                 ],

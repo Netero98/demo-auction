@@ -40,14 +40,12 @@ Feature: Wallets dashboard block
 #    Then I see "Transactions"
 #    Then I click "button_add_transaction" element
 #    Then I see "Add New Transaction"
-#    Then I select "Test wallet name 1" from "transaction_wallet_id" dropdown
-#    Then I select "Cucumber category name 1" from "transaction_category_id" dropdown
+#    Then I click "transaction_wallet_id" element
 #    Then I fill "transaction_amount" field with "-12345"
 #    Then I fill "transaction_description" field with "Cucumber test add transaction"
 #    Then I click "save-transaction-button" element
 #    # to be sure that it's not the form data
 #    Then I go to "/" page
-#    Then I see "Test wallet name 1"
 #    Then I see "Cucumber category name 1"
 #    Then I see "-12345"
 #    Then I see "Cucumber test add transaction"

@@ -27,6 +27,7 @@ return static function (App $app): void {
             $group->post('/wallet', Action\V1\Finance\Wallet\CreateAction::class);
             $group->get('/wallets', Action\V1\Finance\Wallet\ListAction::class);
             $group->get('/transactions', Action\V1\Finance\Transaction\ListAction::class);
+            $group->post('/transactions', Action\V1\Finance\Transaction\CreateAction::class);
             $group->get('/categories', Action\V1\Finance\Category\ListAction::class);
             $group->post('/categories', Action\V1\Finance\Category\CreateAction::class);
         }));
